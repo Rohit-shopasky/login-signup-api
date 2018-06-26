@@ -1,0 +1,120 @@
+<html>
+<head>
+      <title>Login Form</title>
+	
+	  <meta name = "viewport" content = "width = device-width, initial-scale = 1">      
+      <link rel = "stylesheet"
+         href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link rel = "stylesheet"
+         href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+      <script type = "text/javascript"
+         src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>    
+		 
+      <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
+      </script>
+    
+      
+      <script src="js/socket.js"></script>	  
+	  
+</head>
+<style>
+
+</style>
+<body>
+
+   
+  
+ <div class="row">
+ <center><div style="width:600px;">
+        <div class="col s12 m12 l12">
+          <div class="card white darken-1">
+            <div class="card-content black-text">
+              <span class="card-title">Login</span>
+			  
+			  
+			  
+       
+	  
+	  
+	  <div class="row">
+        <div class="input-field col s12">
+		<i class="material-icons prefix">email_circle</i>
+          <input id="email" type="email" class="validate">
+          <label for="email">Email</label>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="input-field col s12">
+		<i class="material-icons prefix">lock_outline_circle</i>
+          <input id="password" type="password" class="validate">
+          <label for="password">Password</label>
+        </div>
+      </div>
+	  
+	 
+	  
+	  
+      
+	  
+	 
+	  <br>
+	  <div class="row">
+	    <div class="col 12 s12 m12">
+               <center><button id="submit" class="btn waves-effect waves-light">register now</button></center>
+			   <br>
+			   <center><span>New User? <a href="/">Register</a></span></center>
+			   
+			  
+		 </div>   
+		
+		</div>
+            </div>
+            
+          </div>
+        </div>
+      </div></center>
+	  </div>
+  
+	  
+	  
+	  
+	  <div id="footer">
+	  </div>
+
+</body>
+</html>
+
+<script>
+$(document).ready(function(){
+  var socket=io();
+  $('#submit').click(function(){
+  var email=document.getElementById('email').value;
+  var password=document.getElementById('password').value;
+    if(email!="" && password!="")
+	{
+	   var detail={email:email,password:password};
+	   detail=JSON.stringify(detail);
+	   socket.emit("user_login",detail);
+	}
+	else
+	{
+	  alert("Both Email and password are required!");
+	}
+  })
+  
+  socket.on("error_login",function(){
+  alert("Wrong Email or password!");
+  });
+  
+  socket.on("success_login",function(data){
+  document.cookie="user=" +data.user_id;
+  window.location.assign("/home");
+  })
+
+
+});
+</script>
+
+
+
